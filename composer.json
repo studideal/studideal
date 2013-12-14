@@ -16,7 +16,13 @@
 			"host": "localhost",
 			"port": 8000,
 			"options": {
-				"labels": ["api"]
+				"labels": ["api"],
+				"views": {
+					"path": "templates",
+					"engines": {
+						"html": "handlebars"
+					}
+				}
 			}
 		},
 		{
@@ -47,11 +53,9 @@
 				"./logs/internal_error_services-us.log": ["error"]
 			},
 			"gcDetection": true,
-			"extendedRequests": true,
 			"opsInterval": 30000,
 			"extendedRequests": true
 		},
-		"ws-plugin-user": null,
 		"furball": null,
 		"lout": null
 	}
