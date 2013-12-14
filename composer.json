@@ -47,7 +47,6 @@
 				"./logs/internal_error_services-us.log": ["error"]
 			},
 			"gcDetection": true,
-			"extendedRequests": true,
 			"opsInterval": 30000,
 			"extendedRequests": true
 		},
