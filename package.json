@@ -1,6 +1,6 @@
 {
   "name": "studideal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The studideal project",
   "main": "index.js",
   "scripts": {
