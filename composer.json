@@ -1,0 +1,58 @@
+{
+	"pack": {
+		"cache": [
+			{
+				"name": "shared",
+				"engine": "redis",
+				"partition": "http",
+				"shared": true,
+				"host": "127.0.0.1",
+				"port": 6379
+			}
+		]
+	},
+	"servers": [
+		{
+			"host": "localhost",
+			"port": 8000,
+			"options": {
+				"labels": ["api"]
+			}
+		},
+		{
+			"host": "localhost",
+			"port": 8001,
+			"options": {
+				"labels": ["admin"]
+			}
+		}
+	],
+	"plugins": {
+		"yar": [
+			{
+				"ext": true
+			},
+			{
+				"cookieOptions": {
+					"password": "secret"
+				}
+			}
+		],
+		"good": {
+			"subscribers": {
+				"console": ["ops", "request", "log", "error"],
+				"./logs/request_services-us.log": ["request"],
+				"./logs/ops_services-us.log": ["ops"],
+				"./logs/log_services-us.log": ["log"],
+				"./logs/internal_error_services-us.log": ["error"]
+			},
+			"gcDetection": true,
+			"extendedRequests": true,
+			"opsInterval": 30000,
+			"extendedRequests": true
+		},
+		"ws-plugin-user": null,
+		"furball": null,
+		"lout": null
+	}
+}
