@@ -15,6 +15,7 @@ var S = Hapi.types.String;
 describe('Views', function () {
 
 	var viewsPath = 'templates';
+	var routesPath = '../../lib/routes/';
 
 	var options = {
 		views: {
@@ -28,7 +29,7 @@ describe('Views', function () {
 	describe('#index-routes', function () {
 
 		it('shows template when correct path is provided', function (done) {
-			server.route({ method: 'GET', path: '/', handler: require('../../lib/routes/index-route').index });
+			server.route({ method: 'GET', path: '/', handler: require(routesPath + 'index-route').index });
 			server.inject(
 					{
 						method: 'GET',
