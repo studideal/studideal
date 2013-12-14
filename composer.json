@@ -51,7 +51,6 @@
 			"opsInterval": 30000,
 			"extendedRequests": true
 		},
-		"ws-plugin-user": null,
 		"furball": null,
 		"lout": null
 	}
