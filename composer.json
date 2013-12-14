@@ -16,7 +16,13 @@
 			"host": "localhost",
 			"port": 8000,
 			"options": {
-				"labels": ["api"]
+				"labels": ["api"],
+				"views": {
+					"path": "templates",
+					"engines": {
+						"html": "handlebars"
+					}
+				}
 			}
 		},
 		{
