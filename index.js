@@ -16,7 +16,8 @@ var options = {
 		engines: {
 			"hbs": "handlebars"
 		},
-		layout: true
+		layout: true,
+		partialsPath: "templates/partials"
 	},
 	"plugins": {
 		"yar": [
@@ -50,10 +51,14 @@ var options = {
 var server = Hapi.createServer('localhost', 8000, options);
 
 // Log plugin
-server.pack.allow({ ext: true }).require('good', options.plugins.good, function (err) { });
+server.pack.allow({ ext: true }).require('good', options.plugins.good, function (err) {
+	console.log("Error loading good module");
+});
 
 // cookie plugin
-server.pack.allow({ext: true}).require('yar', options.plugins.yar, function(err){});
+server.pack.allow({ext: true}).require('yar', options.plugins.yar, function (err) {
+	console.log("Error loading yar module");
+});
 
 // Add the route
 server.route(
