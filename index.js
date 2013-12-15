@@ -52,14 +52,26 @@ var server = Hapi.createServer('localhost', 8000, options);
 
 // Log plugin
 server.pack.allow({ ext: true }).require('good', options.plugins.good, function (err) {
-	console.log("Error loading good module:");
-	console.log(err);
+	if (err) {
+		console.log("Error loading good module:");
+		console.log(err);
+	}
 });
 
 // cookie plugin
 server.pack.allow({ext: true}).require('yar', options.plugins.yar, function (err) {
-	console.log("Error loading yar module:");
-	console.log(err);
+	if (err) {
+		console.log("Error loading yar module:");
+		console.log(err);
+	}
+});
+
+// lout plugin
+server.pack.allow({ext: true}).require('lout', options.plugins.lout, function (err) {
+	if (err) {
+		console.log("Error loading lout module:");
+		console.log(err);
+	}
 });
 
 // Add the route
