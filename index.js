@@ -1,5 +1,40 @@
 var Hapi = require('hapi');
 
+var internals = {};
+
+/**
+ * Reuest pre-handler
+ *
+ * mostly used for nice error messages
+ *
+ * @param request
+ * @param next
+ */
+internals.onPreResponse = function (request, next) {
+	if (request.response().isBoom) {
+		var error = request.response();
+		error.response.payload.message = 'Censored Error';
+	}
+
+	next();
+};
+
+/**
+ * Not found handling
+ *
+ * @param request
+ * @param reply
+ */
+internals.notFoundHandler = function (request, reply) {
+	reply('The page was not found').code(404);
+	/*request.reply.view(
+	 '404',
+	 {
+	 title: 'Nicht gefunden'
+	 }
+	 ).code(404);*/
+};
+
 var options = {
 	cache: [
 		{
@@ -74,7 +109,9 @@ server.pack.allow({ext: true}).require('lout', options.plugins.lout, function (e
 	}
 });
 
-// Add the route
+/**
+ * The index route
+ */
 server.route(
 		{
 			config: {
@@ -88,6 +125,33 @@ server.route(
 		}
 );
 
+/**
+ * The registration routes
+ */
+
+/**
+ * The registration form
+ */
+server.route(
+		{
+			config: {
+				handler: require('./lib/routes/register-route.js').index,
+				cache: {
+					expiresIn: 20000
+				}
+			},
+			method: 'GET',
+			path: '/register'
+		}
+);
+
+/**
+ * The registration handler
+ */
+
+/**
+ * The static route
+ */
 server.route(
 		{
 			config: {
@@ -102,6 +166,11 @@ server.route(
 			}
 		}
 );
+
+/**
+ * Catch-All Route
+ */
+server.route({ method: '*', path: '/{p*}', handler: internals.notFoundHandler });
 
 // Start the server
 server.start();

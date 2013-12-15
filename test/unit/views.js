@@ -23,7 +23,8 @@ describe('Views', function () {
 				"hbs": "handlebars"
 			},
 			path: viewsPath,
-			layout: true
+			layout: true,
+			partialsPath: viewsPath + '/partials'
 		}
 	};
 
