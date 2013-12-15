@@ -33,10 +33,10 @@ var options = {
 		"good": {
 			"subscribers": {
 				"console": ["ops", "request", "log", "error"],
-				"./logs/request_services-us.log": ["request"],
-				"./logs/ops_services-us.log": ["ops"],
-				"./logs/log_services-us.log": ["log"],
-				"./logs/internal_error_services-us.log": ["error"]
+				"./logs/request.log": ["request"],
+				"./logs/ops.log": ["ops"],
+				"./logs/log.log": ["log"],
+				"./logs/internal_error.log": ["error"]
 			},
 			"gcDetection": true,
 			"opsInterval": 30000,
