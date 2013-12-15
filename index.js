@@ -7,10 +7,11 @@ var options = {
 		port: 6379
 	},
 	views: {
-		path: 'templates',
+		path: "templates",
 		engines: {
-			html: 'handlebars'
-		}
+			"hbs": "handlebars"
+		},
+		layout: true
 	}
 };
 

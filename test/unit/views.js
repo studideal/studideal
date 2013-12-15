@@ -19,14 +19,17 @@ describe('Views', function () {
 
 	var options = {
 		views: {
-			engines: { 'html': 'handlebars' },
-			path: viewsPath
+			engines: {
+				"hbs": "handlebars"
+			},
+			path: viewsPath,
+			layout: true
 		}
 	};
 
 	var server = new Hapi.Server(options);
 
-	describe('#index-routes', function () {
+	describe('#index-route', function () {
 
 		it('shows template when correct path is provided', function (done) {
 			server.route({ method: 'GET', path: '/', handler: require(routesPath + 'index-route').index });
@@ -36,7 +39,23 @@ describe('Views', function () {
 						url: '/'
 					}, function (res) {
 
-						expect(res.result).to.contain('Willkommen');
+						expect(res.result).to.contain('Home - StudiDeal');
+						done();
+					});
+		});
+	});
+
+	describe('#register-route', function () {
+
+		it('shows template when correct path is provided', function (done) {
+			server.route({ method: 'GET', path: '/register', handler: require(routesPath + 'register-route').index });
+			server.inject(
+					{
+						method: 'GET',
+						url: '/register'
+					}, function (res) {
+
+						expect(res.result).to.contain('Registrierung - StudiDeal');
 						done();
 					});
 		});
