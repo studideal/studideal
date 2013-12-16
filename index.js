@@ -1,4 +1,5 @@
 var Hapi = require('hapi');
+var LocalStrategy = require('passport-local').Strategy;
 
 var internals = {};
 
@@ -78,7 +79,15 @@ var options = {
 			"extendedRequests": true
 		},
 		"furball": null,
-		"lout": null
+		"lout": null,
+		"travelogue": {
+			hostname: 'localhost',
+			port: 8000,
+			urls: {
+				failureRedirect: '/login'
+			},
+			excludePaths: ['/public/']
+		}
 	}
 };
 
@@ -101,6 +110,13 @@ server.pack.allow({ext: true}).require('yar', options.plugins.yar, function (err
 	}
 });
 
+// travelogue auth plugin
+server.pack.allow({ ext: true }).require('travelogue', options.plugins.travelogue, function (err) {
+	if (err) {
+		throw err;
+	}
+});
+
 // lout plugin
 server.pack.allow({ext: true}).require('lout', options.plugins.lout, function (err) {
 	if (err) {
@@ -108,6 +124,35 @@ server.pack.allow({ext: true}).require('lout', options.plugins.lout, function (e
 		console.log(err);
 	}
 });
+
+/**
+ * Further server config
+ *
+ * @doc: Passport
+ */
+var Passport = server.plugins.travelogue.passport;
+Passport.use(new LocalStrategy(function (username, password, done) {
+	return done(null, false, { 'message': 'invalid credentials' });
+}));
+Passport.serializeUser(function (user, done) {
+
+	done(null, user);
+});
+Passport.deserializeUser(function (obj, done) {
+
+	done(null, obj);
+});
+
+/**
+ * Debug the events
+ */
+if (process.env.DEBUG) {
+	server.on('internalError', function (event) {
+
+		// Send to console
+		console.log(event)
+	});
+}
 
 /**
  * The index route
@@ -118,7 +163,8 @@ server.route(
 				handler: require('./lib/routes/index-route.js').index,
 				cache: {
 					expiresIn: 20000
-				}
+				},
+				auth: false
 			},
 			method: 'GET',
 			path: '/'
@@ -142,6 +188,32 @@ server.route(
 			},
 			method: 'GET',
 			path: '/register'
+		}
+);
+
+/**
+ * The service listing
+ */
+server.route(
+		{
+			handler: {
+				view: 'items/index'
+			},
+			method: 'GET',
+			path: '/list'
+		}
+);
+
+/**
+ * The service listing
+ */
+server.route(
+		{
+			handler: {
+				view: 'items/detail'
+			},
+			method: 'GET',
+			path: '/detail'
 		}
 );
 
