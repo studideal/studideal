@@ -117,4 +117,17 @@ describe('Views', function () {
 			});
 		});
 	});
+
+	describe('#register-route', function () {
+		it('should show the login page', function (done) {
+			server.route({ method: 'GET', path: '/login', handler: require(routesPath + 'auth-route').loginForm});
+			server.inject({
+				method: 'GET',
+				url: '/login'
+			}, function (res) {
+				expect(res.result).to.contain('Anmeldung - StudiDeal');
+				done();
+			});
+		});
+	});
 });

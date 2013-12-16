@@ -161,17 +161,17 @@ if (process.env.DEBUG) {
  * The index route
  */
 server.route(
-		{
-			config: {
-				handler: require('./lib/routes/index-route.js').index,
-				cache: {
-					expiresIn: 20000
-				},
-				auth: false
+	{
+		config: {
+			handler: require('./lib/routes/index-route.js').index,
+			cache: {
+				expiresIn: 20000
 			},
-			method: 'GET',
-			path: '/'
-		}
+			auth: false
+		},
+		method: 'GET',
+		path: '/'
+	}
 );
 
 /**
@@ -182,16 +182,16 @@ server.route(
  * The registration form
  */
 server.route(
-		{
-			config: {
-				handler: require('./lib/routes/auth-route.js').index,
-				cache: {
-					expiresIn: 20000
-				}
-			},
-			method: 'GET',
-			path: '/register'
-		}
+	{
+		config: {
+			handler: require('./lib/routes/auth-route.js').index,
+			cache: {
+				expiresIn: 20000
+			}
+		},
+		method: 'GET',
+		path: '/register'
+	}
 );
 
 /**
@@ -208,29 +208,42 @@ server.route(
 );
 
 /**
+ * The login routes
+ *
+ * The login form
+ */
+server.route({
+	config: {
+		handler: require('./lib/routes/auth-route.js').loginForm
+	},
+	method: 'GET',
+	path: '/login'
+});
+
+/**
  * The service listing
  */
 server.route(
-		{
-			handler: {
-				view: 'items/index'
-			},
-			method: 'GET',
-			path: '/list'
-		}
+	{
+		handler: {
+			view: 'items/index'
+		},
+		method: 'GET',
+		path: '/list'
+	}
 );
 
 /**
  * The service listing
  */
 server.route(
-		{
-			handler: {
-				view: 'items/detail'
-			},
-			method: 'GET',
-			path: '/detail'
-		}
+	{
+		handler: {
+			view: 'items/detail'
+		},
+		method: 'GET',
+		path: '/detail'
+	}
 );
 
 /**
@@ -241,18 +254,18 @@ server.route(
  * The static route
  */
 server.route(
-		{
-			config: {
-				cache: {
-					expiresIn: 20000
-				}
-			},
-			method: 'GET',
-			path: '/{path*}',
-			handler: {
-				directory: { path: './public', listing: false, index: true }
+	{
+		config: {
+			cache: {
+				expiresIn: 20000
 			}
+		},
+		method: 'GET',
+		path: '/{path*}',
+		handler: {
+			directory: { path: './public', listing: false, index: true }
 		}
+	}
 );
 
 /**
