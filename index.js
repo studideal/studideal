@@ -184,7 +184,7 @@ server.route(
 server.route(
 		{
 			config: {
-				handler: require('./lib/routes/register-route.js').index,
+				handler: require('./lib/routes/auth-route.js').index,
 				cache: {
 					expiresIn: 20000
 				}
@@ -200,7 +200,7 @@ server.route(
 server.route(
 	{
 		config: {
-			handler: require('./lib/routes/register-route.js').processRegistration
+			handler: require('./lib/routes/auth-route.js').processRegistration
 		},
 		method: 'POST',
 		path: '/register'

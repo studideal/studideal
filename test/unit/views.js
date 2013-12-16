@@ -60,7 +60,7 @@ describe('Views', function () {
 		});
 
 		it('shows template when correct path is provided', function (done) {
-			server.route({ method: 'GET', path: '/register', handler: require(routesPath + 'register-route').index });
+			server.route({ method: 'GET', path: '/register', handler: require(routesPath + 'auth-route').index });
 			server.inject(
 				{
 					method: 'GET',
@@ -76,7 +76,7 @@ describe('Views', function () {
 		 * Test the registration
 		 */
 		describe('account creation', function () {
-			server.route({ method: 'POST', path: '/register', handler: require(routesPath + 'register-route').processRegistration});
+			server.route({ method: 'POST', path: '/register', handler: require(routesPath + 'auth-route').processRegistration});
 
 			it('succeeds if all fields are correct', function (done) {
 				server.inject(
