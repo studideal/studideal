@@ -56,15 +56,10 @@ describe('Models', function () {
 		it('allows creating a new user when all is correct', function (done) {
 			var correctUserModel = new Account(correctUser);
 			correctUserModel.save(function (err, account) {
-				if (err) {
-					console.log(err);
-				}
+				if (err) throw err;
 				Account.find({_id: account._id}, function (err, foundAccount) {
-					if (!err) {
-						done();
-					} else {
-						throw(err);
-					}
+					if (err) throw err;
+					if (!err) done();
 				});
 			});
 		});
