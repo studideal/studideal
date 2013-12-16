@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node node_modules/.bin/hapi -c composer.json",
-    "test": "node node_modules/lab/bin/lab"
+    "test": "node node_modules/lab/bin/lab -r threshold -t 100"
   },
   "author": "",
   "license": "MIT",
