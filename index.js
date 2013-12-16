@@ -1,6 +1,9 @@
 var Hapi = require('hapi');
 var LocalStrategy = require('passport-local').Strategy;
 
+var database = require('./lib/db');
+database.connect();
+
 var internals = {};
 
 /**
@@ -189,6 +192,19 @@ server.route(
 			method: 'GET',
 			path: '/register'
 		}
+);
+
+/**
+ * The registration process
+ */
+server.route(
+	{
+		config: {
+			handler: require('./lib/routes/register-route.js').processRegistration
+		},
+		method: 'POST',
+		path: '/register'
+	}
 );
 
 /**
