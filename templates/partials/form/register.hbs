@@ -1,0 +1,55 @@
+<form method="POST" action="/register">
+	<div class="row">
+		<div class="large-12 columns">
+			<label for="nickname">Nickname</label>
+			<input type="text" placeholder="Dein Spitzname" name="nickname" id="nickname"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<label for="lastname">Name</label>
+			<input type="text" placeholder="Dein Nachname" name="lastname" id="lastname"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<label for="firstname">Vorname</label>
+			<input type="text" placeholder="Dein Vorname" name="firstname" id="firstname"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<label for="email">E-Mail</label>
+			<input type="text" placeholder="Deine E-Mail Adresse" name="email" id="email"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<label for="role">Wer bist Du?</label>
+			<select id="role" name="role">
+				<option value="student">Student</option>
+				<option value="lecturer">Dozent</option>
+			</select>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-6 medium-6 columns">
+			<label for="gender">Du bist..</label>
+			<input type="radio" name="gender" value="Red" id="genderMale"><label
+				for="genderMale">männlich</label>
+			<input type="radio" name="gender" value="Blue" id="genderFemale"><label
+				for="genderFemale">weiblich</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<label for="password">Password</label>
+			<input type="password" placeholder="Passwort" name="password" id="password"/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="large-12 columns">
+			<input class="button" type="submit" value="Konto anlegen">
+		</div>
+	</div>
+</form>
