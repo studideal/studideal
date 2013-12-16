@@ -1,15 +1,21 @@
-<form id="loginForm" method="POST" action="/login">
+<form id="loginForm" method="POST" action="/login" data-abide>
 	<div class="row">
 		<div class="large-12 columns">
-			<label for="email">E-Mail</label>
-			<input type="email" name="email" id="email"/>
+			<label for="email">E-Mail
+				<small>PFLICHTFELD</small>
+			</label>
+			<input type="email" name="email" id="email" required/>
+			<small class="error">Bitte gib deine E-Mail Adresse an.</small>
 		</div>
 		.
 	</div>
 	<div class="row">
 		<div class="large-12 columns">
-			<label for="password">Passwort</label>
-			<input type="password" name="password" id="password"/>
+			<label for="password">Passwort
+				<small>PFLICHTFELD</small>
+			</label>
+			<input type="password" name="password" id="password" required/>
+			<small class="error">Bitte dein Passwort angeben.</small>
 		</div>
 	</div>
 	<div class="row">
