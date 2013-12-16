@@ -77,20 +77,4 @@ describe('Models', function () {
 			});
 		});
 	});
-
-	describe('#register-route', function () {
-
-		it('shows template when correct path is provided', function (done) {
-			server.route({ method: 'GET', path: '/register', handler: require(routesPath + 'register-route').index });
-			server.inject(
-				{
-					method: 'GET',
-					url: '/register'
-				}, function (res) {
-
-					expect(res.result).to.contain('Registrierung - StudiDeal');
-					done();
-				});
-		});
-	});
 });
