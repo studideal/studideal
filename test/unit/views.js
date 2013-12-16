@@ -118,14 +118,28 @@ describe('Views', function () {
 		});
 	});
 
-	describe('#register-route', function () {
-		it('should show the login page', function (done) {
+	describe('#login-route', function () {
+		before(function(done){
 			server.route({ method: 'GET', path: '/login', handler: require(routesPath + 'auth-route').loginForm});
+			done();
+		});
+		it('should show the login page', function (done) {
 			server.inject({
 				method: 'GET',
 				url: '/login'
 			}, function (res) {
 				expect(res.result).to.contain('Anmeldung - StudiDeal');
+				done();
+			});
+		});
+		it('should show the login page with a form containing password and email field', function (done) {
+			server.inject({
+				method: 'GET',
+				url: '/login'
+			}, function (res) {
+				expect(res.result).to.contain('id="loginForm"');
+				expect(res.result).to.contain('id="email"');
+				expect(res.result).to.contain('id="password"');
 				done();
 			});
 		});
