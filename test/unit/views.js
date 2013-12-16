@@ -12,32 +12,109 @@ var describe = Lab.experiment;
 var it = Lab.test;
 var S = Hapi.types.String;
 
+var mongoose = require('mongoose');
+var Account = require('../../lib/models/Account');
+
 describe('Views', function () {
 
 	var viewsPath = 'templates';
+	var routesPath = '../../lib/routes/';
 
 	var options = {
 		views: {
-			engines: { 'html': 'handlebars' },
-			path: viewsPath
+			engines: {
+				"hbs": "handlebars"
+			},
+			path: viewsPath,
+			layout: true,
+			partialsPath: viewsPath + '/partials'
 		}
 	};
 
+	var dbUri = "mongodb://localhost:27017/mongoose-bcrypt-test-test"
 	var server = new Hapi.Server(options);
 
-	describe('#index-routes', function () {
+	describe('#index-route', function () {
 
 		it('shows template when correct path is provided', function (done) {
-			server.route({ method: 'GET', path: '/', handler: require('../../lib/routes/index-route').index });
+			server.route({ method: 'GET', path: '/', handler: require(routesPath + 'index-route').index });
 			server.inject(
-					{
-						method: 'GET',
-						url: '/'
-					}, function (res) {
+				{
+					method: 'GET',
+					url: '/'
+				}, function (res) {
 
-						expect(res.result).to.contain('Willkommen');
+					expect(res.result).to.contain('Home - StudiDeal');
+					done();
+				});
+		});
+	});
+
+	describe('#register-route', function () {
+
+		before(function (done) {
+			mongoose.connect(dbUri, done);
+			Account.remove({}, function (err) {
+				console.log('BEFORE - Collection Account cleared');
+			});
+		});
+
+		it('shows template when correct path is provided', function (done) {
+			server.route({ method: 'GET', path: '/register', handler: require(routesPath + 'register-route').index });
+			server.inject(
+				{
+					method: 'GET',
+					url: '/register'
+				}, function (res) {
+
+					expect(res.result).to.contain('Registrierung - StudiDeal');
+					done();
+				});
+		});
+
+		/**
+		 * Test the registration
+		 */
+		describe('account creation', function () {
+			server.route({ method: 'POST', path: '/register', handler: require(routesPath + 'register-route').processRegistration});
+
+			it('succeeds if all fields are correct', function (done) {
+				server.inject(
+					{
+						method: 'POST',
+						url: '/register',
+						payload: {
+							lastname: 'Test',
+							firstname: 'Test',
+							nickname: 'tester',
+							email: 'foobar@foo.com',
+							password: 'test',
+							gender: 'male',
+							role: 'student'
+						}
+					}, function (res) {
+						expect(res.raw.res._header).to.contain('HTTP/1.1 302');
 						done();
 					});
+			});
+			it('fails when nickname is not filled out', function (done) {
+				server.inject(
+					{
+						method: 'POST',
+						url: '/register',
+						payload: {
+							lastname: 'Test',
+							firstname: 'Test',
+							email: 'foobar@foo.com',
+							password: 'test',
+							gender: 'male',
+							role: 'student'
+						}
+					}, function (res) {
+						expect(res.raw.res._header).to.contain('HTTP/1.1 400');
+						done();
+					});
+			});
 		});
 	});
 });
