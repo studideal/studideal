@@ -119,7 +119,24 @@ describe('Views', function () {
 	});
 
 	describe('#login-route', function () {
-		before(function(done){
+		before(function (done) {
+			var plugins = {
+				yar: {
+					cookieOptions: {
+						password: 'secret'
+					}
+				},
+				travelogue: {
+					hostname: 'localhost',
+					port: 8000,
+					urls: {
+						failureRedirect: '/login'
+					},
+					excludePaths: ['/public/']}
+			};
+			server.pack.allow({ ext: true }).require(plugins, function(err){
+				expect(err).to.not.exist;
+			});
 			server.route({ method: 'GET', path: '/login', handler: require(routesPath + 'auth-route').loginForm});
 			done();
 		});

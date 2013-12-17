@@ -1,8 +1,10 @@
 var Hapi = require('hapi');
 var LocalStrategy = require('passport-local').Strategy;
+var util = require('util');
 
 var database = require('./lib/db');
 database.connect();
+var Account = require('./lib/models/Account.js');
 
 var internals = {};
 
@@ -65,7 +67,8 @@ var options = {
 			},
 			{
 				"cookieOptions": {
-					"password": "secret"
+					"password": "secret",
+					"isSecure": false
 				}
 			}
 		],
@@ -134,16 +137,32 @@ server.pack.allow({ext: true}).require('lout', options.plugins.lout, function (e
  * @doc: Passport
  */
 var Passport = server.plugins.travelogue.passport;
-Passport.use(new LocalStrategy(function (username, password, done) {
-	return done(null, false, { 'message': 'invalid credentials' });
+Passport.use(new LocalStrategy(function (email, password, done) {
+	Account.findOne({ 'email': email }, function (err, user) {
+		if (err) { return done(err); }
+		if (!user) {
+			return done(null, false, {
+				message: util.format('Unknown user "%s"', email)
+			});
+		}
+		user.comparePassword(password, function (err, matched) {
+			if (err) { return done(err); }
+			if (matched) {
+				return done(null, user);
+			} else {
+				return done(null, false, { message: 'Invalid password' });
+			}
+		});
+	});
 }));
-Passport.serializeUser(function (user, done) {
 
-	done(null, user);
+Passport.serializeUser(function (account, done) {
+	done(null, account.email);
 });
 Passport.deserializeUser(function (obj, done) {
-
-	done(null, obj);
+	Account.findOne({email: obj}, function(err, account) {
+		done(err, account);
+	});
 });
 
 /**
